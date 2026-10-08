@@ -14,4 +14,4 @@ answers them with citations to the exact sections it used.
 - Says "I don't know" rather than guessing when the docs don't cover it
 
 ## Status
-🚧 In progress: see the roadmap below.
+🚧 In progress

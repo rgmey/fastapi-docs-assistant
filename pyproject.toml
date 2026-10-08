@@ -1,7 +1,7 @@
 [project]
 name = "fastapi-docs-assistant"
 version = "0.1.0"
-description = "Add your description here"
+description = "Question-answering assistant over the FastAPI docs, with evaluation-driven design."
 readme = "README.md"
 authors = [
     { name = "rgmey", email = "rezaghm97@gmail.com" }
