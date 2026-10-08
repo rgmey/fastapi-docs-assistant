@@ -1,8 +1,10 @@
 from types import SimpleNamespace
 
+import httpx
+import openai
 import pytest
 
-from fastapi_docs_assistant.llm import LLMClient
+from fastapi_docs_assistant.llm import LLMClient, LLMError
 
 
 class FakeCompletions:
@@ -39,3 +41,15 @@ def test_system_prompt_is_sent_first(monkeypatch: pytest.MonkeyPatch) -> None:
     messages = fake.calls[0]["messages"]
     assert messages[0] == {"role": "system", "content": "be brief"}
     assert messages[1] == {"role": "user", "content": "hi"}
+
+
+class FailingCompletions:
+    def create(self, **kwargs):
+        raise openai.APIConnectionError(request=httpx.Request("POST", "http://localhost"))
+
+
+def test_api_errors_become_llm_errors() -> None:
+    client = LLMClient(api_key="test", base_url="http://localhost", model="fake-model")
+    client._client = SimpleNamespace(chat=SimpleNamespace(completions=FailingCompletions()))
+    with pytest.raises(LLMError):
+        client.complete("hi")
