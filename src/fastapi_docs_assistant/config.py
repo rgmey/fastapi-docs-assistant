@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
     llm_model: str
     log_level: str = "INFO"
+    llm_timeout_s: float = 30.0
+    llm_max_retries: int = 3
 
 
 @lru_cache
